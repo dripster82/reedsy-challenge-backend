@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Product' do
+RSpec.describe 'Product', type: :model do
   describe '#code' do
     it 'can initialise code' do
       product = Product.new(code: 'TSHIRT')
