@@ -5,14 +5,12 @@ module Api
     module Products
       class QuoteController < ApplicationController
         def index
-
-          begin
-            update_data = JSON.parse(request.raw_post, symbolize_names: true)
-            quote_lines = update_data[:data] || nil
-          rescue StandardError
-            quote_lines = nil
+          quote_lines = params.fetch(:data, nil)
+          if quote_lines.is_a?(Array)
+            quote_lines = quote_lines.map { |obj|
+              obj.permit(:id, :type, attributes: %i[code qty]).to_hash.deep_symbolize_keys
+            }
           end
-          
           quote_service = ::Products::QuoteService.call(quote_lines: quote_lines)
 
           render json: quote_service[:json], status: quote_service[:status]

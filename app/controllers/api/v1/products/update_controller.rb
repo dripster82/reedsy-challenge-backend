@@ -5,13 +5,8 @@ module Api
     module Products
       class UpdateController < ApplicationController
         def index
-          begin
-            update_data = JSON.parse(request.raw_post, symbolize_names: true)
-            attributes = update_data[:data][:attributes] || nil
-          rescue StandardError
-            attributes = nil
-          end
-
+          attributes = params.fetch(:data, nil)
+          attributes = attributes[:attributes].permit(:code, :name, :price).to_hash.symbolize_keys if attributes.is_a?(Hash) && attributes[:attributes]
           update_service = ::Products::UpdateService.call(code: params[:code], attributes: attributes)
 
           render json: update_service[:json], status: update_service[:status]

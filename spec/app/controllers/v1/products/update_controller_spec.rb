@@ -14,7 +14,7 @@ module Api
             {
               data: {
                 attributes: {
-                  price: new_price
+                  price: new_price.to_s
                 }
               }
             }
@@ -32,7 +32,7 @@ module Api
 
             allow(::Products::UpdateService).to receive(:call).and_call_original
 
-            patch "/api/v1/products/#{mug.code}", params: params.to_json
+            patch "/api/v1/products/#{mug.code}", params: params
           end
 
           it 'reponds with the serivces output' do
@@ -46,7 +46,7 @@ module Api
               )
               .and_return({ json: 'all good', status: :ok })
 
-            patch "/api/v1/products/#{mug.code}", params: params.to_json
+            patch "/api/v1/products/#{mug.code}", params: params
 
             expect(response).to have_http_status(:ok)
             expect(response.body).to eq 'all good'

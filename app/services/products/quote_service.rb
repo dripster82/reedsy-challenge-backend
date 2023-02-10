@@ -7,7 +7,7 @@ module Products
     end
 
     def call
-      return no_data_response unless quote_lines || !quote_lines.is_a?(Array)
+      return no_data_response unless raw_quote_lines.is_a?(Array)
 
       build_quote
 
