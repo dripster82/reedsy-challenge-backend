@@ -63,7 +63,7 @@ module Products
           expect(product.name).to eq mug.name
         end
 
-        context 'and when the price is sent as a string' do
+        context 'with the price as a string' do
           before do
             attributes[:price] = new_price.to_s
           end
@@ -82,7 +82,7 @@ module Products
     end
 
     context 'when invalid data is sent' do
-      context 'and the price is invalid' do
+      context 'with the price is invalid' do
         [
           { price: -10.01, reason: 'must be greater than or equal to 0' },
           { price: 10_000_000.00, reason: 'must be less than or equal to 9999999.99' },
@@ -112,7 +112,7 @@ module Products
         end
       end
 
-      context 'and the code already exists' do
+      context 'with the code already existing' do
         let(:attributes) do
           {
             code: tshirt.code,

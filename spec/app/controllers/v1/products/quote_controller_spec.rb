@@ -25,13 +25,14 @@ module Api
                   quote_lines: params[:data]
                 }
               )
-              .and_return({ json: 'all good', status: :ok })
+
+            allow(::Products::QuoteService).to receive(:call).and_return({ json: 'all good', status: :ok })
 
             post '/api/v1/products/quote', params: params.to_json
           end
 
           it 'reponds with the serivces output' do
-            expect(::Products::QuoteService)
+            allow(::Products::QuoteService)
               .to receive(:call)
               .and_return({ json: 'all good', status: :ok })
 

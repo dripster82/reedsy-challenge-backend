@@ -8,8 +8,8 @@ module Api
       let(:mug) { create(:product, code: 'MUG', name: 'Reedsy Mug', price: 6.00) }
       let(:tshirt) { create(:product, code: 'TSHIRT', name: 'Reedsy T-Shirt', price: 15.00) }
       let(:line_qty) { 2 }
-      let(:total_price) { ((mug.price * line_qty) + (tshirt.price * line_qty))}
-      let(:quote_lines) do 
+      let(:total_price) { ((mug.price * line_qty) + (tshirt.price * line_qty)) }
+      let(:quote_lines) do
         [
           QuoteLine.new(code: mug.code, qty: line_qty),
           QuoteLine.new(code: tshirt.code, qty: line_qty)

@@ -10,8 +10,8 @@ module Api
       # attributes :quote_lines do |quote|
       #   Api::V1::QuoteLineSerializer.new(quote.quote_lines)
       # end
-      
-      set_id do "temp_quote_id" end
+
+      set_id { 'temp_quote_id' }
 
       set_key_transform :camel
     end

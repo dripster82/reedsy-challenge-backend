@@ -29,13 +29,14 @@ module Api
                   attributes: params[:data][:attributes]
                 }
               )
-              .and_call_original
+
+            allow(::Products::UpdateService).to receive(:call).and_call_original
 
             patch "/api/v1/products/#{mug.code}", params: params.to_json
           end
 
           it 'reponds with the serivces output' do
-            expect(::Products::UpdateService)
+            allow(::Products::UpdateService)
               .to receive(:call)
               .with(
                 {

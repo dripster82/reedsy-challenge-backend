@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,23 +13,23 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_02_09_142221) do
-  create_table "discounts", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.integer "qty", null: false
-    t.decimal "discount", precision: 4, scale: 3, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_discounts_on_product_id"
+  create_table 'discounts', force: :cascade do |t|
+    t.integer 'product_id', null: false
+    t.integer 'qty', null: false
+    t.decimal 'discount', precision: 4, scale: 3, null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['product_id'], name: 'index_discounts_on_product_id'
   end
 
-  create_table "products", force: :cascade do |t|
-    t.string "code", null: false
-    t.string "name", null: false
-    t.decimal "price", precision: 9, scale: 2, default: "0.0"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["code"], name: "unique_codes", unique: true
+  create_table 'products', force: :cascade do |t|
+    t.string 'code', null: false
+    t.string 'name', null: false
+    t.decimal 'price', precision: 9, scale: 2, default: '0.0'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['code'], name: 'unique_codes', unique: true
   end
 
-  add_foreign_key "discounts", "products"
+  add_foreign_key 'discounts', 'products'
 end

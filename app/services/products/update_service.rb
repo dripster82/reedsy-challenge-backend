@@ -3,7 +3,7 @@
 # module Products
 module Products
   class UpdateService < ApplicationService
-    attr_reader :code, :attributes, :json, :status, :product
+    attr_reader :code, :attributes, :json, :status
 
     def initialize(code:, attributes:)
       @code = code
@@ -32,7 +32,13 @@ module Products
       end
     end
 
+    def product
+      @product ||= Product.find_by(code: code)
+    end
+
     private
+
+    attr_writer :product
 
     def no_data_response
       {
@@ -46,10 +52,6 @@ module Products
         json: { code: ['Product not found'] }.to_json,
         status: :bad_request
       }
-    end
-
-    def product
-      @product ||= Product.find_by(code: code)
     end
   end
 end
