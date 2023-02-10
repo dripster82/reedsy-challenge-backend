@@ -11,8 +11,8 @@ module Api
           let(:params) do
             {
               data: [
-                { attributes: { code: 'MUG', qty: 3 } },
-                { attributes: { code: 'HOODIE', qty: 1 } }
+                { id: 'MUG', type: 'QuoteLine', attributes: { code: 'MUG', qty: 3 } },
+                { id: 'HOODIE', type: 'QuoteLine', attributes: { code: 'HOODIE', qty: 1 } }
               ]
             }
           end

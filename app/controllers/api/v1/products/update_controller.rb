@@ -6,7 +6,12 @@ module Api
       class UpdateController < ApplicationController
         def index
           update_data = JSON.parse(request.raw_post, symbolize_names: true)
-          attributes = update_data[:data][:attributes] || nil
+
+          begin
+            attributes = update_data[:data][:attributes] || nil
+          rescue StandardError
+            attributes = nil
+          end
 
           update_service = ::Products::UpdateService.call(code: params[:code], attributes: attributes)
 

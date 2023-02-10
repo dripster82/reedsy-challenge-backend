@@ -32,7 +32,8 @@ class QuoteLine
 
     @discount_percentage = 1
     unless product.discounts.empty?
-      @discount_percentage -= product.discounts.find_all { |discount| discount.qty <= qty }.max_by(&:qty).discount
+      product_discount = product.discounts.find_all { |discount| discount.qty <= qty }.max_by(&:qty)
+      @discount_percentage -= product_discount.discount if product_discount
     end
 
     @discount_percentage

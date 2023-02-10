@@ -33,7 +33,7 @@ module Products
         code = quote_line_data[:id]
         qty = quote_line_data[:attributes][:qty]
         quote_line = QuoteLine.new(code: code, qty: qty)
-
+        Rails.logger.debug quote_line
         next unless quote_line.valid?
 
         if quote_lines.key?(code)

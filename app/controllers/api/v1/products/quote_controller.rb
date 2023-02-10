@@ -7,7 +7,11 @@ module Api
         def index
           update_data = JSON.parse(request.raw_post, symbolize_names: true)
 
-          quote_lines = update_data[:data] || nil
+          begin
+            quote_lines = update_data[:data] || nil
+          rescue StandardError
+            quote_lines = nil
+          end
 
           quote_service = ::Products::QuoteService.call(quote_lines: quote_lines)
 
