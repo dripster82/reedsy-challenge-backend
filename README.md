@@ -1,5 +1,11 @@
 # Reedsy Backend Challenge
 
+This app was in response to the challage found here
+
+https://github.com/reedsy/challenges/blob/main/ruby-on-rails-engineer-v2.md
+
+
+
 ## To Setup
 In order to setup this rails api application:
 
@@ -20,8 +26,10 @@ to test the app run the rails server with
 
 ### Product List
 GET `/api/v1/products`
+
 Response
-```{
+```
+{
   "data": [
     {
       "id": "MUG",
@@ -55,9 +63,14 @@ Response
 ```
 
 ### Product Update
-PATCH `/api/v1/products/`
+PATCH `/api/v1/products/[product_code]`
+
+eg
+PATCH `/api/v1/products/MUG`
+
 Request Body
-```{
+```
+{
   "data": {
     "attributes": {
       "price": 3.99
@@ -67,7 +80,8 @@ Request Body
 ```
 
 Response
-```{
+```
+{
     "data": {
         "id": "MUG",
         "type": "Product",
@@ -83,8 +97,10 @@ Response
 
 ### Product Price Check / Quote
 POST `/api/v1/products/quote`
+
 Request Body
-```{
+```
+{
   "data": [
     { "id": "MUG", "type": "QuoteLine", "attributes": { "qty": 30 } },
     { "id": "HOODIE", "type": "QuoteLine", "attributes": { "qty": 1 } }
@@ -93,7 +109,8 @@ Request Body
 ```
 
 Response
-```{
+```
+{
     "data": {
         "id": "temp_quote_id",
         "type": "Quote",
