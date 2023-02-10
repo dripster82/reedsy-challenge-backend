@@ -18,13 +18,13 @@ class QuoteLine
 
     @code = product.code
     @product_price = product.price
-    @line_price = product.price * discount_percentage
+    @line_price = (product.price * discount_percentage).round(2)
   end
 
   def total_price
     return 0.0 unless valid?
 
-    qty * line_price
+    (qty * line_price).round(2)
   end
 
   def discount_percentage

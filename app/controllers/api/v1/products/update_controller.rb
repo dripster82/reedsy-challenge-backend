@@ -5,9 +5,8 @@ module Api
     module Products
       class UpdateController < ApplicationController
         def index
-          update_data = JSON.parse(request.raw_post, symbolize_names: true)
-
           begin
+            update_data = JSON.parse(request.raw_post, symbolize_names: true)
             attributes = update_data[:data][:attributes] || nil
           rescue StandardError
             attributes = nil

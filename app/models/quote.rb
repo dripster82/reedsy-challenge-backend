@@ -21,7 +21,7 @@ class Quote
       total_price += quote_line.total_price
     end
 
-    total_price
+    total_price.round(2)
   end
 
   def add_quote_lines(quote_lines)

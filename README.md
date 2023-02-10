@@ -21,7 +21,7 @@ to test the app run the rails server with
 ### Product List
 GET `/api/v1/products`
 Response
-`{
+```{
   "data": [
     {
       "id": "MUG",
@@ -51,21 +51,23 @@ Response
       }
     }
   ]
-}`
+}
+```
 
 ### Product Update
 PATCH `/api/v1/products/`
 Request Body
-`{
+```{
   "data": {
     "attributes": {
       "price": 3.99
     }
   }
-}`
+}
+```
 
 Response
-`{
+```{
     "data": {
         "id": "MUG",
         "type": "Product",
@@ -75,26 +77,28 @@ Response
             "price": "3.99"
         }
     }
-}`
+}
+```
 
 
 ### Product Price Check / Quote
 POST `/api/v1/products/quote`
 Request Body
-`{
+```{
   "data": [
-    { "id": "MUG", "type": "QuoteLine", "attributes": { "qty": 3 } },
+    { "id": "MUG", "type": "QuoteLine", "attributes": { "qty": 30 } },
     { "id": "HOODIE", "type": "QuoteLine", "attributes": { "qty": 1 } }
   ]
-}`
+}
+```
 
 Response
-`{
+```{
     "data": {
         "id": "temp_quote_id",
         "type": "Quote",
         "attributes": {
-            "total_price": "31.97"
+            "total_price": "132.5"
         },
         "relationships": {
             "quote_lines": {
@@ -117,11 +121,11 @@ Response
             "type": "QuoteLine",
             "attributes": {
                 "code": "MUG",
-                "qty": 3,
+                "qty": 30,
                 "product_price": "3.99",
-                "line_price": "3.99",
-                "total_price": "11.97",
-                "discount_percentage": 0
+                "line_price": "3.75",
+                "total_price": "112.5",
+                "discount_percentage": "6.0"
             }
         },
         {
@@ -137,4 +141,5 @@ Response
             }
         }
     ]
-}`
+}
+```

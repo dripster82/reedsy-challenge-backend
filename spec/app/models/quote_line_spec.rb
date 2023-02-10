@@ -15,7 +15,7 @@ RSpec.describe QuoteLine, type: :model do
       expect(subject.code).to eq product.code
       expect(subject.product_price).to eq product.price
       expect(subject.line_price).to eq product.price
-      expect(subject.total_price).to eq product.price * qty
+      expect(subject.total_price).to eq (product.price * qty).round(2)
       expect(subject.discount_percentage).to eq 1
       expect(subject).to be_valid
     end
@@ -31,8 +31,8 @@ RSpec.describe QuoteLine, type: :model do
       it 'has the correct discount' do
         discount_val = (1 - discount.discount)
         expect(subject.discount_percentage).to eq discount_val
-        expect(subject.line_price).to eq product.price *  discount_val
-        expect(subject.total_price).to eq product.price * qty * discount_val
+        expect(subject.line_price).to eq (product.price * discount_val).round(2)
+        expect(subject.total_price).to eq ((product.price * discount_val).round(2) * qty).round(2)
         expect(subject).to be_valid
       end
     end
