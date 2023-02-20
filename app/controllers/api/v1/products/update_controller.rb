@@ -6,7 +6,12 @@ module Api
       class UpdateController < ApplicationController
         def index
           attributes = params.fetch(:data, nil)
-          attributes = attributes[:attributes].permit(:code, :name, :price).to_hash.symbolize_keys if attributes.is_a?(Hash) && attributes[:attributes]
+          if attributes.is_a?(ActionController::Parameters) && attributes[:attributes]
+            attributes = attributes[:attributes]
+            .permit(:code, :name, :price)
+            .to_hash
+            .deep_symbolize_keys
+          end
           update_service = ::Products::UpdateService.call(code: params[:code], attributes: attributes)
 
           render json: update_service[:json], status: update_service[:status]

@@ -3,7 +3,7 @@
 class Quote
   include ActiveModel::Model
 
-  validates :quote_line_arr, length: { minimum: 1 }
+  validates :quote_lines, length: { minimum: 1 }
 
   def initialize(quote_lines: [])
     clear_quote_lines
@@ -50,10 +50,6 @@ class Quote
   end
 
   def quote_line_ids
-    quote_line_arr.map(&:code)
+    @quote_line_arr.map(&:code)
   end
-
-  private
-
-  attr_reader :quote_line_arr
 end
