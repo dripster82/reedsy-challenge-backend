@@ -20,12 +20,12 @@ module Api
             before do
               [mug, tshirt, hoodie].each do |product|
                 expected_json['data'] << {
-                  'id' => product.code.to_s,
+                  'id' => product.code,
                   'type' => 'Product',
                   'attributes' => {
-                    'code' => product.code.to_s,
-                    'name' => product.name.to_s,
-                    'price' => product.price.to_s
+                    'code' => product.code,
+                    'name' => product.name,
+                    'price' => product.price
                   }
                 }
               end

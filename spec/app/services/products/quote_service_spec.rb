@@ -14,7 +14,7 @@ module Products
 
     context 'when sent valid data' do
       context 'when passed a single product line' do
-        let(:total_price) { (mug.price * mug_qty).to_s }
+        let(:total_price) { mug.price * mug_qty }
         let(:mug_qty) { 2 }
 
         before do
@@ -37,14 +37,14 @@ module Products
           expect(quote_line[:id]).to eq mug.code
           expect(quote_line[:type]).to eq 'QuoteLine'
           expect(quote_line[:attributes][:qty]).to eq mug_qty
-          expect(quote_line[:attributes][:product_price]).to eq mug.price.to_s
-          expect(quote_line[:attributes][:line_price]).to eq mug.price.to_s
-          expect(quote_line[:attributes][:total_price]).to eq total_price.to_s
+          expect(quote_line[:attributes][:product_price]).to eq mug.price
+          expect(quote_line[:attributes][:line_price]).to eq mug.price
+          expect(quote_line[:attributes][:total_price]).to eq total_price
         end
       end
 
       context 'when passed a multiple product lines' do
-        let(:total_price) { (mug_total_price + tshirt_total_price).to_s }
+        let(:total_price) { mug_total_price + tshirt_total_price }
         let(:mug_total_price) { mug.price * mug_qty }
         let(:tshirt_total_price) { tshirt.price * tshirt_qty }
         let(:mug_qty) { 1 }
@@ -73,21 +73,21 @@ module Products
           expect(quote_line_one[:id]).to eq mug.code
           expect(quote_line_one[:type]).to eq 'QuoteLine'
           expect(quote_line_one[:attributes][:qty]).to eq mug_qty
-          expect(quote_line_one[:attributes][:product_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:line_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price.to_s
+          expect(quote_line_one[:attributes][:product_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:line_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price
 
           expect(quote_line_two[:id]).to eq tshirt.code
           expect(quote_line_two[:type]).to eq 'QuoteLine'
           expect(quote_line_two[:attributes][:qty]).to eq tshirt_qty
-          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price.to_s
+          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price
         end
       end
 
       context 'when passed a multiple product lines with matching codes' do
-        let(:total_price) { (mug_total_price + tshirt_total_price).to_s }
+        let(:total_price) { mug_total_price + tshirt_total_price }
         let(:mug_total_price) { mug.price * mug_qty }
         let(:tshirt_total_price) { tshirt.price * (tshirt_qty * 2) }
         let(:mug_qty) { 1 }
@@ -117,16 +117,16 @@ module Products
           expect(quote_line_one[:id]).to eq mug.code
           expect(quote_line_one[:type]).to eq 'QuoteLine'
           expect(quote_line_one[:attributes][:qty]).to eq mug_qty
-          expect(quote_line_one[:attributes][:product_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:line_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price.to_s
+          expect(quote_line_one[:attributes][:product_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:line_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price
 
           expect(quote_line_two[:id]).to eq tshirt.code
           expect(quote_line_two[:type]).to eq 'QuoteLine'
           expect(quote_line_two[:attributes][:qty]).to eq tshirt_qty * 2
-          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price.to_s
+          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price
         end
       end
     end
@@ -165,7 +165,7 @@ module Products
       end
 
       context 'when a multiple lines with a duplicate having a negative qty is passed' do
-        let(:total_price) { (mug_total_price + tshirt_total_price).to_s }
+        let(:total_price) { (mug_total_price + tshirt_total_price) }
         let(:mug_total_price) { mug.price * mug_qty }
         let(:tshirt_total_price) { tshirt.price * tshirt_qty }
         let(:mug_qty) { 3 }
@@ -195,16 +195,16 @@ module Products
           expect(quote_line_one[:id]).to eq mug.code
           expect(quote_line_one[:type]).to eq 'QuoteLine'
           expect(quote_line_one[:attributes][:qty]).to eq mug_qty
-          expect(quote_line_one[:attributes][:product_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:line_price]).to eq mug.price.to_s
-          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price.to_s
+          expect(quote_line_one[:attributes][:product_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:line_price]).to eq mug.price
+          expect(quote_line_one[:attributes][:total_price]).to eq mug_total_price
 
           expect(quote_line_two[:id]).to eq tshirt.code
           expect(quote_line_two[:type]).to eq 'QuoteLine'
           expect(quote_line_two[:attributes][:qty]).to eq tshirt_qty
-          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price.to_s
-          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price.to_s
+          expect(quote_line_two[:attributes][:product_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:line_price]).to eq tshirt.price
+          expect(quote_line_two[:attributes][:total_price]).to eq tshirt_total_price
         end
       end
     end
@@ -213,7 +213,7 @@ module Products
       context 'when a flat 30% discount is being used' do
         let(:tshirt_discount) { create(:discount, product: tshirt, qty: 3, discount: discount_percentage) }
         let(:discount_percentage) { 0.3 }
-        let(:total_price) { (tshirt_line_price * tshirt_qty).to_s }
+        let(:total_price) { (tshirt_line_price * tshirt_qty) }
         let(:tshirt_line_price) { tshirt.price * (1 - discount_percentage) }
         let(:tshirt_qty) { 20 }
 
@@ -238,15 +238,15 @@ module Products
           expect(quote_line[:id]).to eq tshirt.code
           expect(quote_line[:type]).to eq 'QuoteLine'
           expect(quote_line[:attributes][:qty]).to eq tshirt_qty
-          expect(quote_line[:attributes][:product_price]).to eq tshirt.price.to_s
-          expect(quote_line[:attributes][:line_price]).to eq tshirt_line_price.to_s
+          expect(quote_line[:attributes][:product_price]).to eq tshirt.price
+          expect(quote_line[:attributes][:line_price]).to eq tshirt_line_price
           expect(quote_line[:attributes][:total_price]).to eq total_price
         end
       end
 
       context 'when a qty variable discount is being used' do
         let(:discount_increments) { 0.02 }
-        let(:total_price) { (mug_line_price * mug_qty).to_s }
+        let(:total_price) { (mug_line_price * mug_qty) }
         let(:mug_line_price) { mug.price * (1 - ([(mug_qty / 10).floor(0), 15].min * discount_increments)) }
         let(:mug_qty) { 45 }
 
@@ -274,8 +274,8 @@ module Products
           expect(quote_line[:id]).to eq mug.code
           expect(quote_line[:type]).to eq 'QuoteLine'
           expect(quote_line[:attributes][:qty]).to eq mug_qty
-          expect(quote_line[:attributes][:product_price]).to eq mug.price.to_s
-          expect(quote_line[:attributes][:line_price]).to eq mug_line_price.to_s
+          expect(quote_line[:attributes][:product_price]).to eq mug.price
+          expect(quote_line[:attributes][:line_price]).to eq mug_line_price
           expect(quote_line[:attributes][:total_price]).to eq total_price
         end
       end
@@ -294,7 +294,7 @@ module Products
         let(:hoodie_total_price) { (hoodie.price * hoodie_qty) }
         let(:hoodie_qty) { 1 }
 
-        let(:total_price) { (mug_total_price + tshirt_total_price + hoodie_total_price).to_s }
+        let(:total_price) { (mug_total_price + tshirt_total_price + hoodie_total_price) }
 
         before do
           (1..15).each do |i|
@@ -323,23 +323,23 @@ module Products
           expect(one[:id]).to eq mug.code
           expect(one[:type]).to eq 'QuoteLine'
           expect(one[:attributes][:qty]).to eq mug_qty
-          expect(one[:attributes][:product_price]).to eq mug.price.to_s
-          expect(one[:attributes][:line_price]).to eq mug_line_price.to_s
-          expect(one[:attributes][:total_price]).to eq mug_total_price.to_s
+          expect(one[:attributes][:product_price]).to eq mug.price
+          expect(one[:attributes][:line_price]).to eq mug_line_price
+          expect(one[:attributes][:total_price]).to eq mug_total_price
 
           expect(two[:id]).to eq tshirt.code
           expect(two[:type]).to eq 'QuoteLine'
           expect(two[:attributes][:qty]).to eq tshirt_qty
-          expect(two[:attributes][:product_price]).to eq tshirt.price.to_s
-          expect(two[:attributes][:line_price]).to eq tshirt_line_price.to_s
-          expect(two[:attributes][:total_price]).to eq tshirt_total_price.to_s
+          expect(two[:attributes][:product_price]).to eq tshirt.price
+          expect(two[:attributes][:line_price]).to eq tshirt_line_price
+          expect(two[:attributes][:total_price]).to eq tshirt_total_price
 
           expect(three[:id]).to eq hoodie.code
           expect(three[:type]).to eq 'QuoteLine'
           expect(three[:attributes][:qty]).to eq hoodie_qty
-          expect(three[:attributes][:product_price]).to eq hoodie.price.to_s
-          expect(three[:attributes][:line_price]).to eq hoodie.price.to_s
-          expect(three[:attributes][:total_price]).to eq hoodie_total_price.to_s
+          expect(three[:attributes][:product_price]).to eq hoodie.price
+          expect(three[:attributes][:line_price]).to eq hoodie.price
+          expect(three[:attributes][:total_price]).to eq hoodie_total_price
         end
       end
     end

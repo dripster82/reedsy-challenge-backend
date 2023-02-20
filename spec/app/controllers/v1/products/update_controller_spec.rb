@@ -14,7 +14,7 @@ module Api
             {
               data: {
                 attributes: {
-                  price: new_price.to_s
+                  price: new_price
                 }
               }
             }
@@ -26,7 +26,9 @@ module Api
               .with(
                 {
                   code: mug.code,
-                  attributes: params[:data][:attributes]
+                  data: ActionController::Parameters.new(
+                    attributes: ActionController::Parameters.new(price: new_price.to_s)
+                  )
                 }
               )
 
@@ -41,7 +43,9 @@ module Api
               .with(
                 {
                   code: mug.code,
-                  attributes: params[:data][:attributes]
+                  data: ActionController::Parameters.new(
+                    attributes: ActionController::Parameters.new(price: new_price.to_s)
+                  )
                 }
               )
               .and_return({ json: 'all good', status: :ok })

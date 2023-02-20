@@ -3,30 +3,30 @@
 # module Products
 module Products
   class UpdateService < ApplicationService
-    attr_reader :code, :attributes, :json, :status
+    attr_reader :code, :data, :json, :status
 
-    def initialize(code:, attributes:)
+    def initialize(code:, data:)
       @code = code
-      @attributes = attributes
+      @data = data || {}
     end
 
     def call
-      return no_data_response unless attributes
+      return invalid_data_response unless valid?
       return no_product_response unless product
 
-      attributes.each do |attribute, value|
+      validator[:data][:attributes].each do |attribute, value|
         product[attribute] = value
       end
 
       if product.valid?
         product.save!
         {
-          json: Api::V1::ProductSerializer.new(product).to_json,
+          json: Api::V1::ProductSerializer.new(product).to_hash,
           status: :ok
         }
       else
         {
-          json: product.errors.to_json,
+          json: product.errors,
           status: :bad_request
         }
       end
@@ -40,17 +40,25 @@ module Products
 
     attr_writer :product
 
-    def no_data_response
+    def valid?
+      validator.success?
+    end
+
+    def validator
+      @_validator ||= Api::V1::Products::UpdateControllerValidation.new.call({ data: @data })
+    end
+
+    def invalid_data_response
       {
-        json: { error: ['Invalid request data'] }.to_json,
+        json: validator.errors.to_hash,
         status: :bad_request
       }
     end
 
     def no_product_response
       {
-        json: { code: ['Product not found'] }.to_json,
-        status: :bad_request
+        json: { code: ['Product not found'] },
+        status: :not_found
       }
     end
   end

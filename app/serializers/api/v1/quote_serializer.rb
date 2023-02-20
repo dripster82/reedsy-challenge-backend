@@ -5,7 +5,10 @@ module Api
     class QuoteSerializer
       include JSONAPI::Serializer
 
-      attributes :total_price
+      attribute :total_price do |quote|
+        quote.total_price.to_f
+      end
+
       has_many :quote_lines, serializer: Api::V1::QuoteLineSerializer
 
       set_id { 'temp_quote_id' }

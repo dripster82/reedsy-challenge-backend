@@ -19,10 +19,10 @@ module Api
         it { is_expected.to have_type(:QuoteLine) }
         it { is_expected.to serialize_attribute(:code).as(quote_line.code) }
         it { is_expected.to serialize_attribute(:qty).as(quote_line.qty) }
-        it { is_expected.to serialize_attribute(:product_price).as(mug.price) }
-        it { is_expected.to serialize_attribute(:line_price).as(mug.price * (1 - discount)) }
+        it { is_expected.to serialize_attribute(:product_price).as(mug.price.to_f) }
+        it { is_expected.to serialize_attribute(:line_price).as((mug.price * (1 - discount)).to_f) }
         it { is_expected.to serialize_attribute(:discount_percentage).as(30) }
-        it { is_expected.to serialize_attribute(:total_price).as(mug.price * quote_line.qty * (1 - discount)) }
+        it { is_expected.to serialize_attribute(:total_price).as((mug.price * quote_line.qty * (1 - discount)).to_f) }
       end
     end
   end

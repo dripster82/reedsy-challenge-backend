@@ -14,6 +14,7 @@ module ReedsyApi
     config.load_defaults 7.0
 
     config.autoload_paths << "#{root}/app/services"
+    config.autoload_paths << "#{root}/app/validations"
 
     # Configuration for the application, engines, and railties goes here.
     #

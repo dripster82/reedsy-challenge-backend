@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'jsonapi'
 module Products
   RSpec.describe UpdateService do
-    subject { described_class.new(code: code, attributes: attributes) }
+    subject { described_class.new(code: code, data: data) }
     let(:mug) { create(:product, code: 'MUG', name: 'Reedsy Mug', price: 6.00) }
     let(:code) { mug.code }
     let(:tshirt) { create(:product, code: 'TSHIRT', name: 'Reedsy T-Shirt', price: 15.00) }
@@ -14,11 +14,13 @@ module Products
       let(:new_code) { 'MUG2' }
       let(:new_name) { 'Reedsy Rebranded Mug' }
       let(:new_price) { 17.99 }
-      let(:attributes) do
+      let(:data) do
         {
-          code: new_code,
-          name: new_name,
-          price: new_price
+          attributes: {
+            code: new_code,
+            name: new_name,
+            price: new_price
+          }
         }
       end
 
@@ -40,17 +42,17 @@ module Products
 
         expect(results[:status]).to eq :ok
 
-        json_data = JSON.parse(results[:json], symbolize_names: true)[:data]
+        json_data = results[:json][:data]
 
         expect(json_data[:attributes][:code]).to eq new_code
         expect(json_data[:attributes][:name]).to eq new_name
-        expect(json_data[:attributes][:price]).to eq new_price.to_s
+        expect(json_data[:attributes][:price]).to eq new_price
       end
 
       context 'with just the new_price sent' do
         before do
-          attributes.delete(:code)
-          attributes.delete(:name)
+          data[:attributes].delete(:code)
+          data[:attributes].delete(:name)
         end
 
         it 'updates the product with the new price' do
@@ -65,7 +67,7 @@ module Products
 
         context 'with the price as a string' do
           before do
-            attributes[:price] = new_price.to_s
+            data[:attributes][:price] = new_price
           end
 
           it 'updates the product with the new value' do
@@ -84,15 +86,17 @@ module Products
     context 'when invalid data is sent' do
       context 'with the price is invalid' do
         [
-          { price: -10.01, reason: 'must be greater than or equal to 0' },
+          { price: -10.01, reason: 'must be greater than or equal to 0.0' },
           { price: 10_000_000.00, reason: 'must be less than or equal to 9999999.99' },
-          { price: 'abc', reason: 'is not a number' },
-          { price: nil, reason: 'is not a number' }
+          { price: 'abc', reason: 'must be a float' },
+          { price: nil, reason: 'must be filled' }
         ].each do |test_data|
           context "of '#{test_data[:price]}'" do
-            let(:attributes) do
+            let(:data) do
               {
-                price: test_data[:price]
+                attributes: {
+                  price: test_data[:price]
+                }
               }
             end
 
@@ -100,8 +104,8 @@ module Products
               results = subject.call
               expect(results[:status]).to eq :bad_request
 
-              json_data = JSON.parse(results[:json], symbolize_names: true)
-              expect(json_data[:price][0]).to eq test_data[:reason]
+              json_data = results[:json][:data]
+              expect(json_data[:attributes][:price][0]).to eq test_data[:reason]
 
               product = Product.find_by(code: mug.code)
 
@@ -113,10 +117,12 @@ module Products
       end
 
       context 'with the code already existing' do
-        let(:attributes) do
+        let(:data) do
           {
-            code: tshirt.code,
-            price: new_price
+            attributes: {
+              code: tshirt.code,
+              price: new_price
+            }
           }
         end
 
@@ -124,7 +130,7 @@ module Products
           results = subject.call
           expect(results[:status]).to eq :bad_request
 
-          json_data = JSON.parse(results[:json], symbolize_names: true)
+          json_data = results[:json]
           expect(json_data[:code][0]).to eq 'has already been taken'
 
           one, two = Product.all
@@ -140,14 +146,14 @@ module Products
       end
 
       context 'with a poor json request' do
-        let(:attributes) { nil }
+        let(:data) { nil }
 
         it 'returns 400 with the correct error message' do
           results = subject.call
           expect(results[:status]).to eq :bad_request
 
-          json_data = JSON.parse(results[:json], symbolize_names: true)
-          expect(json_data[:error][0]).to eq 'Invalid request data'
+          json_data = results[:json]
+          expect(json_data[:data][:attributes][0]).to eq 'is missing'
           product = Product.find_by(code: mug.code)
 
           expect(product.price).to eq mug.price
@@ -156,18 +162,20 @@ module Products
       end
 
       context 'with no such code in the DB' do
-        let(:attributes) do
+        let(:data) do
           {
-            price: new_price
+            attributes: {
+              price: new_price
+            }
           }
         end
         let(:code) { 'CAR' }
 
-        it 'returns 400 with the correct error message' do
+        it 'returns 404 with the correct error message' do
           results = subject.call
-          expect(results[:status]).to eq :bad_request
+          expect(results[:status]).to eq :not_found
 
-          json_data = JSON.parse(results[:json], symbolize_names: true)
+          json_data = results[:json]
           expect(json_data[:code][0]).to eq 'Product not found'
 
           product = Product.find_by(code: code)

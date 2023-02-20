@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec_jsonapi_serializer'
+require 'dry-validation'
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
