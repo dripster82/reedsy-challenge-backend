@@ -1,4 +1,4 @@
-name: CI
+name: Run rspec tests
 
 on: [push, workflow_dispatch]
   
