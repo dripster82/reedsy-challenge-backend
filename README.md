@@ -4,7 +4,9 @@ This app was in response to the challage found here
 
 https://github.com/reedsy/challenges/blob/main/ruby-on-rails-engineer-v2.md
 
+You will also see that I have the repo setup with automated workflows, testing pull requests.
 
+The workflow tests for both failing rspecs and failing rubocop checks.
 
 ## To Setup
 In order to setup this rails api application:
