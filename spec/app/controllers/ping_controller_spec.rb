@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::PingController', type: :request do
   describe '#index' do
     it 'returns pong' do
-      get '/api/v1/ping'
+      get '/api/v1/pong'
 
       expect(response.body).to eq 'pong'
       expect(response).to have_http_status(:success)
